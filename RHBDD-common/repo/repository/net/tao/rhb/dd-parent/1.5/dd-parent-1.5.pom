@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>net.tao.rhb</groupId>
+    <artifactId>dd-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>1.5</version>
+    <name>RHB DD - Parent POM</name>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.3.2.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <properties>
+        <dd.commons.version>1.0</dd.commons.version>
+
+        <!-- Java compiler version -->
+        <javaVersion>7</javaVersion>
+        <maven.compiler.source>1.${javaVersion}</maven.compiler.source>
+        <maven.compiler.target>1.${javaVersion}</maven.compiler.target>
+
+        <!-- File encoding -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- dependency version -->
+        <slf4j.version>1.7.13</slf4j.version>
+        <logback.version>1.1.3</logback.version>
+        <h2.version>1.4.190</h2.version>
+        <oracle.jdbc.version>12.1.0.2</oracle.jdbc.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc7</artifactId>
+                <version>${oracle.jdbc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.batch</groupId>
+                <artifactId>spring-batch-test</artifactId>
+                <version>${spring-batch.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.tao.rhb</groupId>
+                <artifactId>dd-commons</artifactId>
+                <version>${dd.commons.version}</version>
+            </dependency>
+            <dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+			<version>3.1.4.GA</version>
+		</dependency>
+		<dependency>
+			<groupId>org.picketbox</groupId>
+			<artifactId>picketbox</artifactId>
+			<version>4.9.3.Final</version>
+		</dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>codelds</id>
+            <url>https://code.lds.org/nexus/content/groups/main-repo</url>
+        </repository>
+    </repositories>
+</project>
