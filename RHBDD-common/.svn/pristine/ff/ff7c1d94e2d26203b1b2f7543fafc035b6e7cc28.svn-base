@@ -1,0 +1,20 @@
+package net.tao.rhb.dd.commons.ibg.constant;
+
+public enum RecordType {
+    FILE_HEADER("1"),
+    BATCH_HEADER("5"),
+    ENTRY_DETAIL("6"),
+    ENTRY_ADDENDA("7"),
+    BATCH_CONTROL("8"),
+    FILE_CONTROL("9");
+
+    private final String value;
+
+    RecordType(String value) {
+        this.value = value;
+    }
+
+    public String value() {
+        return value;
+    }
+}

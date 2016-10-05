@@ -1,0 +1,31 @@
+package net.tao.rhb.dd.commons.config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+
+import javax.sql.DataSource;
+
+@Configuration
+public class InfrastructureConfiguration {
+
+    @Autowired
+    private Environment env;
+
+    /**
+     * To be used by batch application.
+     *
+     * @return the main data source for the application
+     */
+    @Bean
+    public DataSource dataSource() {
+        return DataSourceBuilder.create()
+                .driverClassName(env.getRequiredProperty("datasource.driverClassName"))
+                .url(env.getRequiredProperty("datasource.url"))
+                .username(env.getRequiredProperty("datasource.username"))
+                .password(env.getRequiredProperty("datasource.password"))
+                .build();
+    }
+}

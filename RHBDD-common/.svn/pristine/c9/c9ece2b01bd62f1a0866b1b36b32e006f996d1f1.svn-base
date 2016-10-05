@@ -1,0 +1,32 @@
+package net.tao.rhb.dd.commons.ibg.format;
+
+import net.tao.rhb.dd.commons.constant.AccountType;
+import net.tao.rhb.dd.commons.ibg.constant.AddendaType;
+import net.tao.rhb.dd.commons.ibg.constant.FeeChargeType;
+import net.tao.rhb.dd.commons.ibg.constant.RecordType;
+
+public class FirstAddendaFormat {
+    public RecordType recordType = RecordType.ENTRY_ADDENDA;
+
+    public AddendaType addendaType = AddendaType.DEFAULT;
+
+    public String billerName;
+
+    public String billerCode;
+
+    public String mandateNumber;
+
+    public long debitRetry;
+
+    public AccountType accountType;
+
+    public long feeAmount;
+
+    public FeeChargeType feeChargeType;
+
+    public String reserved;
+
+    public long addendaSequenceNumber = 1;
+
+    public long entryDetailSequenceNumber;
+}

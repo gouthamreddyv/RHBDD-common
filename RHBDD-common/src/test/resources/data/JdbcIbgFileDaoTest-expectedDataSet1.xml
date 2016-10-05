@@ -1,0 +1,5 @@
+<dataset>
+    <ibg_file rec_type_code="1" priority_code="01" immediate_destination="1000211" immediate_origin="1000411" file_creation_date="160321"
+              file_creation_time="0700" file_id_modifier="C" record_size="94" blocking_factor="10" format_code="1"
+              immediate_destination_name="MyClear" immediate_origin_name="RHB" reference_code="123" filename="dnc0321070001.txt"/>
+</dataset>

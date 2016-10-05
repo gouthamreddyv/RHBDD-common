@@ -1,0 +1,15 @@
+package net.tao.rhb.dd.commons.db;
+
+public enum SequenceTable {
+    TRACE_NUMBER("trace_number_seq");
+
+    private final String sequenceName;
+
+    SequenceTable(String sequenceName) {
+        this.sequenceName = sequenceName;
+    }
+
+    public String sequenceName() {
+        return sequenceName;
+    }
+}

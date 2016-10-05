@@ -1,0 +1,36 @@
+package net.tao.rhb.dd.commons.ibg.field;
+
+import net.tao.rhb.dd.commons.ibg.constant.RecordType;
+
+public class RecordTypeField implements Field<RecordType> {
+
+    public String getFormat() {
+        return null;
+    }
+
+    public int length() {
+        return 1;
+    }
+
+    @Override
+    public RecordType parse(String value) {
+        RecordType recordType = null;
+
+        for (RecordType t : RecordType.values()) {
+            if (t.value().equals(value)) {
+                recordType = t;
+            }
+        }
+
+        if (recordType == null) {
+            throw new IllegalArgumentException("Invalid record type");
+        }
+
+        return recordType;
+    }
+
+    @Override
+    public String format(RecordType value) {
+        return value.value();
+    }
+}

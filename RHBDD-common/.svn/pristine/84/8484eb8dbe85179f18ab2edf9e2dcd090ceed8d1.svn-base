@@ -1,0 +1,33 @@
+package net.tao.rhb.dd.commons.ibg.format;
+
+import net.tao.rhb.dd.commons.ibg.constant.PriorityCode;
+import net.tao.rhb.dd.commons.ibg.constant.RecordType;
+
+public class FileHeaderFormat {
+
+    public RecordType recordType;
+
+    public PriorityCode priorityCode;
+
+    public String immediateDestination;
+
+    public String immediateOrigin;
+
+    public SimpleDate fileCreationDate;
+
+    public SimpleTime fileCreationTime;
+
+    public String fileIdModifier;
+
+    public long recordSize = 94;
+
+    public long blockingFactor = 10;
+
+    public long formatCode = 1;
+
+    public String immediateDestinationName;
+
+    public String immediateOriginName;
+
+    public String referenceCode;
+}

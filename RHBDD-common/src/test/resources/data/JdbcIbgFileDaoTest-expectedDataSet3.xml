@@ -1,0 +1,21 @@
+<dataset>
+    <ibg_file rec_type_code="1" priority_code="01" immediate_destination="1000211" immediate_origin="1000411"
+              file_creation_date="160321"
+              file_creation_time="0700" file_id_modifier="C" record_size="94" blocking_factor="10" format_code="1"
+              immediate_destination_name="MyClear" immediate_origin_name="RHB" reference_code="123"
+              filename="dnc0321070001.txt"/>
+
+    <ibg_file_batch rec_type_code="5" service_class_code="225" company_name="HLBB" company_discretionary_data="00"
+                    company_identification="10000344" standard_entry_class_code="CTX" company_entry_description="IBG DD"
+                    company_descriptive_date="160321" effective_entry_date="160321" settlement_date="000"
+                    originator_status_code="1"
+                    originating_fi_identification="100000211" batch_number="1"/>
+
+    <ibg_file_entry rec_type_code="6" transaction_code="27" receiving_fi_identification="12345678" check_digit="9"
+                    rfi_account_number="20001345667" amount_in_cent="21050" individual_id_number="810908084567" no_of_addenda_records="2"
+                    individual_name="Tester 1" reserved="" discretionary_data="01" addenda_records_indicator="1" trace_number="123456780123456"/>
+
+    <ibg_file_entry rec_type_code="6" transaction_code="27" receiving_fi_identification="12345678" check_digit="9"
+                    rfi_account_number="20001345667" amount_in_cent="21050" individual_id_number="810908084567" no_of_addenda_records="2"
+                    individual_name="Tester 1" reserved="" discretionary_data="01" addenda_records_indicator="1" trace_number="123456780123456"/>
+</dataset>

@@ -1,0 +1,33 @@
+package net.tao.rhb.dd.commons.ibg.field;
+
+import net.tao.rhb.dd.commons.ibg.FieldUtils;
+import net.tao.rhb.dd.commons.ibg.constant.CompanyEntryDescription;
+
+public class CompanyEntryDescriptionField implements Field<CompanyEntryDescription> {
+    @Override
+    public int length() {
+        return 10;
+    }
+
+    @Override
+    public CompanyEntryDescription parse(String value) throws IllegalArgumentException {
+        CompanyEntryDescription code = null;
+
+        for (CompanyEntryDescription t : CompanyEntryDescription.values()) {
+            if (t.value().equals(value.trim())) {
+                code = t;
+            }
+        }
+
+        if (code == null) {
+            throw new IllegalArgumentException("Invalid Company Entry Description: " + value);
+        }
+
+        return code;
+    }
+
+    @Override
+    public String format(CompanyEntryDescription value) throws IllegalArgumentException {
+        return FieldUtils.rightPad(value.value(), ' ', length());
+    }
+}

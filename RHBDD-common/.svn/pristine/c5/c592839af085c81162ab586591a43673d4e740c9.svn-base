@@ -1,0 +1,43 @@
+package net.tao.rhb.dd.commons.ibg.format;
+
+import net.tao.rhb.dd.commons.ibg.constant.CompanyEntryDescription;
+import net.tao.rhb.dd.commons.ibg.constant.RecordType;
+import net.tao.rhb.dd.commons.ibg.constant.ServiceClassCode;
+import net.tao.rhb.dd.commons.ibg.constant.StandardEntryClassCode;
+
+public class BatchHeaderFormat {
+
+    public RecordType recordType;
+
+    public ServiceClassCode serviceClassCode;
+
+    public String companyName;
+
+    public String companyDiscretionaryData;
+
+    public String companyIdentification;
+
+    public StandardEntryClassCode standardEntryClassCode;
+
+    public CompanyEntryDescription companyEntryDescription;
+
+    public SimpleDate companyDescriptiveDate;
+
+    public SimpleDate effectiveEntryDate;
+
+    public String settlementDate; // Julian
+
+    public String originatorStatusCode;
+
+    public String originatingDfiIdentification;
+
+    /**
+     * This number is assigned in ascending sequence to each batch by the ODFI
+     * or its Sending Point in a given file of entries. Since the batch number
+     * in the Batch Header Record and the Batch Control Record is the same,
+     * the ascending sequence number should be assigned by batch and not by
+     * record.
+     */
+    public long batchNumber;
+
+}

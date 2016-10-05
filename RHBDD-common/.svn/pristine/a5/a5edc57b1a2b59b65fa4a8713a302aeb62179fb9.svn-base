@@ -1,0 +1,247 @@
+CREATE TABLE SELLER
+(
+  "SELLER_ID"               VARCHAR2(20)            NOT NULL,
+  "BUSINESS_REG_NO"         VARCHAR2(20),
+  "IS_B2C"                  VARCHAR2(1) DEFAULT 'N',
+  "IS_B2B1"                 VARCHAR2(1) DEFAULT 'N' NOT NULL,
+  "IS_B2B2"                 VARCHAR2(1) DEFAULT 'N' NOT NULL,
+  "IS_DD"                   VARCHAR2(1) DEFAULT 'N' NOT NULL,
+  "IS_CANCEL"               VARCHAR2(1) DEFAULT 'N' NOT NULL,
+  "CIS_NUMBER"              VARCHAR2(20),
+  "BANK_CODE"               VARCHAR2(50),
+  "COMPANY_NAME"            VARCHAR2(100),
+  "BUSINESS_DESC"           VARCHAR2(150),
+  "EXCHANGE_ID"             VARCHAR2(20),
+  "EXCHANGE_DESCRIPTION"    VARCHAR2(100),
+  "ADDRESS1"                VARCHAR2(300),
+  "ADDRESS2"                VARCHAR2(300),
+  "ADDRESS3"                VARCHAR2(300),
+  "STATE"                   VARCHAR2(2),
+  "POSTCODE"                VARCHAR2(5),
+  "TELEPHONE_NO"            VARCHAR2(20),
+  "FAX_NO"                  VARCHAR2(20),
+  "P_CONTACT_PERSON_NAME"   VARCHAR2(150), -- Size follow USER_PROFILE.DISPLAY_NAME
+  "P_CONTACT_PERSON_IC_NO"  VARCHAR2(15),
+  "P_CONTACT_PERSON_TEL_NO" VARCHAR2(16),
+  "S_CONTACT_PERSON_NAME"   VARCHAR2(150), -- Size follow USER_PROFILE.DISPLAY_NAME
+  "S_CONTACT_PERSON_IC_NO"  VARCHAR2(15),
+  "S_CONTACT_PERSON_TEL_NO" VARCHAR2(16),
+  "WEBSITE_URL"             VARCHAR2(100),
+  "IP_ADDRESS"              VARCHAR2(30),
+  "IS_CHARGE_SELLER"        VARCHAR2(1),
+  "IS_CHARGE_BUYER"         VARCHAR2(1),
+  "EMAIL"                   VARCHAR2(100),
+  "OTHER_BANK_ACCOUNT_NO"   VARCHAR2(50),
+  "OTHER_BANK_NAME"         VARCHAR2(50),
+  "OTHER_DETAILS"           VARCHAR2(150),
+  "IS_ACTIVE"               VARCHAR2(1) DEFAULT 'N' NOT NULL,
+  "PRINT_NOTIF_LETTER"      VARCHAR2(1) DEFAULT 'N' NOT NULL,
+  "IS_TXN_FINGERPRINT"      VARCHAR2(1) DEFAULT 'N' NOT NULL,
+  "IS_DDR"                  VARCHAR2(1) DEFAULT 'N' NOT NULL,
+  "REMARKS"                 VARCHAR2(200),
+
+  "SELLER_CODE"             VARCHAR2(20),
+  "TXN_KEY"                 VARCHAR2(50),
+  "COMPANY_CODE"            VARCHAR2(20),
+  "COMPANY_SUB_CODE"        VARCHAR2(20),
+
+  "CREATE_MAKE_DATE_TIME"   TIMESTAMP   DEFAULT SYSTIMESTAMP,
+  "CREATE_MAKER_ID"         VARCHAR2(50),
+  "CREATE_CHECK_DATE_TIME"  TIMESTAMP   DEFAULT SYSTIMESTAMP,
+  "CREATE_CHECKER_ID"       VARCHAR2(50),
+  "UPDATE_MAKE_DATE_TIME"   TIMESTAMP,
+  "UPDATE_MAKER_ID"         VARCHAR2(50),
+  "UPDATE_CHECK_DATE_TIME"  TIMESTAMP,
+  "UPDATE_CHECKER_ID"       VARCHAR2(50),
+
+  CONSTRAINT SELLER_PK PRIMARY KEY (SELLER_ID)
+);
+
+CREATE TABLE SELLER_CHARGE
+(
+  "SELLER_ID"                 VARCHAR2(20)            NOT NULL,
+  "BIZ_MODEL"                 VARCHAR2(4)             NOT NULL, --Values: B2C , B2B1 , B2B2
+  "SELLER_BILLING_TYPE"       VARCHAR2(10)            NOT NULL, -- Values:Auto , Manual
+  "IS_DRC"                    VARCHAR2(1) DEFAULT 'N' NOT NULL,
+  "BILLING_FREQUENCY"         VARCHAR2(20),
+  "IS_CREDITCARD_SELLER"      VARCHAR2(1) DEFAULT 'N' NOT NULL,
+  "IS_FIXED_RATE"             VARCHAR2(1) DEFAULT 'N' NOT NULL,
+  "FIXED_RATE"                VARCHAR2(20),
+  "IS_PERCENTAGE_RATE"        VARCHAR2(1) DEFAULT 'N' NOT NULL,
+  "PERCENTAGE_RATE"           VARCHAR2(20),
+  "MIN_AMOUNT"                VARCHAR2(20),
+  "MIX_AMOUNT"                VARCHAR2(20),
+  "SELLER_BANK_CHARGES_SHARE" VARCHAR2(20),
+  "BUYER_BANK_CHARGES_SHARE"  VARCHAR2(20),
+  "FPX_CHARGES_SHARE"         VARCHAR2(20),
+  CONSTRAINT SELLER_CHARGE_PK PRIMARY KEY (SELLER_ID, BIZ_MODEL),
+  CONSTRAINT SELLER_CHARGE_SELLER_ID_FK FOREIGN KEY (SELLER_ID) REFERENCES SELLER (SELLER_ID)
+);
+
+CREATE TABLE SELLER_ACCOUNT
+(
+  "SELLER_ID"  VARCHAR2(20) NOT NULL,
+  "BIZ_MODEL"  VARCHAR2(4)  NOT NULL, --Values: B2C , B2B1 , B2B2
+  "ACCOUNT_NO" VARCHAR2(20) NOT NULL,
+  CONSTRAINT SELLER_ACCOUNT_PK PRIMARY KEY (SELLER_ID, BIZ_MODEL),
+  CONSTRAINT SELLER_ACCOUNT_SELLER_ID_FK FOREIGN KEY (SELLER_ID) REFERENCES SELLER (SELLER_ID)
+
+);
+
+CREATE TABLE SERVER_CONFIGURATION
+(
+  server_configuration_id NUMBER(19, 0) NOT NULL,
+  server_ip               VARCHAR2(20)  NOT NULL,
+  server_port             NUMBER(8, 0)  NOT NULL,
+  transmission_method     VARCHAR2(20)  NOT NULL, -- possible values: SFTP or FTP
+  server_username         VARCHAR2(40)  NOT NULL,
+  server_password         VARCHAR2(40)  NOT NULL,
+  CONSTRAINT server_configuration_pk PRIMARY KEY (server_configuration_id)
+);
+
+CREATE TABLE FOLDER_CONFIGURATION
+(
+  folder_type             VARCHAR2(20)  NOT NULL,
+  folder_path             VARCHAR2(100) NOT NULL,
+  seller_id               VARCHAR2(20)  NOT NULL,
+  server_configuration_id NUMBER(19, 0) NOT NULL,
+  CONSTRAINT FOLDER_CONFIGURATION_UN UNIQUE (seller_id, folder_type),
+  CONSTRAINT FC_SERVER_CONFIG_ID_FK FOREIGN KEY (server_configuration_id) REFERENCES SERVER_CONFIGURATION (server_configuration_id),
+  CONSTRAINT FC_SELLER_ID_FK FOREIGN KEY (seller_id) REFERENCES SELLER (seller_id)
+);
+
+CREATE TABLE CFT_FILE (
+  cft_file_id             NUMBER(28, 0) NOT NULL,
+  filename                VARCHAR2(50)  NOT NULL,
+  payment_mode            VARCHAR2(10),
+  seller_transaction_date TIMESTAMP,
+  seller_id               VARCHAR2(20)  NOT NULL,
+  status                  VARCHAR2(10),
+  total_item              NUMBER(10, 0),
+  total_amount_in_cent    NUMBER(15, 0),
+  hash_total              VARCHAR2(20),
+  date_file_processed     TIMESTAMP,
+  CONSTRAINT cft_file_pk PRIMARY KEY (cft_file_id),
+  CONSTRAINT cft_seller_id_fk FOREIGN KEY (seller_id) REFERENCES SELLER (SELLER_ID)
+);
+
+CREATE TABLE CFT_FILE_DETAIL (
+  cft_file_detail_id     NUMBER(28, 0) NOT NULL,
+  cft_file_id            NUMBER(28, 0) NOT NULL,
+  seller_order_no        VARCHAR2(30),
+  seller_account_no      VARCHAR2(30),
+  payer_bank_id          VARCHAR2(15),
+  payer_bank_branch_code VARCHAR2(15),
+  payer_account_no       VARCHAR2(30),
+  payer_name             VARCHAR2(60),
+  payer_id_type          VARCHAR2(5),
+  payer_id_no            VARCHAR2(30),
+  transaction_amount     NUMBER(15, 2),
+  transaction_currency   VARCHAR2(5),
+  charge_type            VARCHAR2(6),
+  reference_no1          VARCHAR2(30),
+  reference_no2          VARCHAR2(30),
+  payment_refernce_no    VARCHAR2(45),
+  mandate_no             VARCHAR2(45),
+  debit_retry            NUMBER(2, 0),
+  transaction_status     VARCHAR2(4),
+  debit_status           VARCHAR2(5),
+  credit_status          VARCHAR2(5),
+  CONSTRAINT cft_file_detail_pk PRIMARY KEY (cft_file_detail_id),
+  CONSTRAINT cft_file_id_fk FOREIGN KEY (cft_file_id) REFERENCES cft_file (cft_file_id)
+);
+
+CREATE TABLE RES_FILE (
+  res_file_id             NUMBER(28, 0) NOT NULL,
+  filename                VARCHAR2(50)  NOT NULL,
+  payment_mode            VARCHAR2(10),
+  seller_transaction_date TIMESTAMP,
+  seller_id               VARCHAR2(20)  NOT NULL,
+  status                  VARCHAR2(10),
+  total_item              NUMBER(10, 0),
+  total_amount_in_cent    NUMBER(15, 0),
+  hash_total              VARCHAR2(20),
+  date_file_created       TIMESTAMP,
+  cft_file_id             NUMBER(19, 0) NOT NULL,
+  CONSTRAINT res_file_pk PRIMARY KEY (res_file_id),
+  CONSTRAINT res_cft_file_id_fk FOREIGN KEY (cft_file_id) REFERENCES cft_file (cft_file_id),
+  CONSTRAINT res_seller_id_fk FOREIGN KEY (seller_id) REFERENCES SELLER (SELLER_ID)
+);
+
+CREATE TABLE RES_FILE_DETAIL (
+  res_file_detail_id NUMBER(28, 0) NOT NULL,
+  res_file_id        NUMBER(28, 0) NOT NULL,
+
+  cft_file_detail_id NUMBER(28, 0) NOT NULL,
+
+  CONSTRAINT res_file_detail_pk PRIMARY KEY (res_file_detail_id),
+  CONSTRAINT res_file_id_fk FOREIGN KEY (res_file_id) REFERENCES res_file (res_file_id),
+  CONSTRAINT res_cft_detail_id_fk FOREIGN KEY (cft_file_detail_id) REFERENCES cft_file_detail (cft_file_detail_id)
+);
+
+CREATE TABLE IBG_FILE (
+  ibg_file_id                NUMBER(28, 0) NOT NULL,
+  filename                   VARCHAR2(50)  NOT NULL,
+
+  rec_type_code              VARCHAR2(2),
+  priority_code              VARCHAR2(4),
+  immediate_destination      VARCHAR2(20),
+  immediate_origin           VARCHAR2(20),
+  file_creation_date         VARCHAR2(6),
+  file_creation_time         VARCHAR2(4),
+  file_id_modifier           VARCHAR2(2),
+  record_size                VARCHAR2(3),
+  blocking_factor            VARCHAR2(4),
+  format_code                VARCHAR2(2),
+  immediate_destination_name VARCHAR2(40),
+  immediate_origin_name      VARCHAR2(40),
+  reference_code             VARCHAR2(16),
+
+  CONSTRAINT ibg_file_pk PRIMARY KEY (ibg_file_id)
+);
+
+CREATE TABLE IBG_FILE_BATCH (
+  ibg_file_batch_id             NUMBER(28, 0) NOT NULL,
+  ibg_file_id                   NUMBER(28, 0) NOT NULL,
+
+  rec_type_code                 VARCHAR2(2),
+  service_class_code            VARCHAR2(6),
+  company_name                  VARCHAR2(32),
+  company_discretionary_data    VARCHAR2(40),
+  company_identification        VARCHAR2(20),
+  standard_entry_class_code     VARCHAR2(6),
+  company_entry_description     VARCHAR2(20),
+  company_descriptive_date      VARCHAR2(6),
+  effective_entry_date          VARCHAR2(6),
+  settlement_date               VARCHAR2(6),
+  originator_status_code        VARCHAR2(2),
+  originating_fi_identification VARCHAR2(16),
+  batch_number                  VARCHAR2(17),
+
+  CONSTRAINT ibg_file_batch_id_pk PRIMARY KEY (ibg_file_batch_id),
+  CONSTRAINT ibg_file_detail_id_fk FOREIGN KEY (ibg_file_id) REFERENCES ibg_file (ibg_file_id)
+);
+
+CREATE TABLE IBG_FILE_ENTRY (
+  ibg_file_entry_id                NUMBER(28, 0) NOT NULL,
+  ibg_file_batch_id                NUMBER(28, 0) NOT NULL,
+
+  rec_type_code                    VARCHAR2(2),
+  transaction_code                 VARCHAR2(4),
+  receiving_fi_identification      VARCHAR2(16),
+  check_digit                      VARCHAR2(2),
+  rfi_account_number               VARCHAR2(34),
+  amount                           VARCHAR2(15),
+  individual_identification_number VARCHAR2(30),
+  no_of_addenda_records            VARCHAR2(8),
+  individual_name                  VARCHAR2(32),
+  reserved                         VARCHAR2(4),
+  discretionary_data               VARCHAR2(4),
+  addenda_records_indicator        VARCHAR2(2),
+  trace_number                     VARCHAR2(30),
+
+  CONSTRAINT ibg_file_entry_id_pk PRIMARY KEY (ibg_file_entry_id),
+  CONSTRAINT ibg_file_entry_id_fk FOREIGN KEY (ibg_file_batch_id) REFERENCES ibg_file_batch (ibg_file_batch_id)
+);
+
+

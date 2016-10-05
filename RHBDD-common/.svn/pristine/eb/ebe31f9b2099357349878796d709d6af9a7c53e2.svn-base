@@ -1,0 +1,43 @@
+package net.tao.rhb.dd.commons.ibg.format;
+
+public class SimpleDate {
+
+    private int year;
+    private int month;
+    private int day;
+
+    /**
+     * Take note that the year field must be two digits.
+     */
+    public SimpleDate(int year, int month, int day) {
+
+        if (year < 0 || year > 99) {
+            throw new IllegalArgumentException("The year value must be a two digit year");
+        }
+
+        if (month < 1 || month > 12) {
+            throw new IllegalArgumentException("The month value is invalid");
+        }
+
+        if (day < 1 || day > 31) {
+            throw new IllegalArgumentException("The day value is invalid");
+        }
+
+        this.year = year;
+        this.month = month;
+        this.day = day;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+}

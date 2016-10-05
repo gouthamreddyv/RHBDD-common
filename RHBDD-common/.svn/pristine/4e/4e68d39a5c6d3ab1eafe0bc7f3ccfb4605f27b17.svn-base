@@ -1,0 +1,21 @@
+package net.tao.rhb.dd.commons.ibg.format;
+
+import net.tao.rhb.dd.commons.ibg.constant.AddendaType;
+import net.tao.rhb.dd.commons.ibg.constant.RecordType;
+
+public class SecondAddendaFormat {
+
+    public RecordType recordType = RecordType.ENTRY_ADDENDA;
+
+    public AddendaType addendaType = AddendaType.DEFAULT;
+
+    public String otherPaymentDetails;
+
+    public String recipientReference;
+
+    public String reserved;
+
+    public long addendaSequenceNumber = 2;
+
+    public long entryDetailSequenceNumber;
+}
